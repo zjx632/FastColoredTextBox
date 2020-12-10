@@ -161,7 +161,7 @@ Namespace TesterVB
 
         Private Sub miOpen_Click(sender As Object, e As EventArgs)
             If Me.ofd.ShowDialog() = DialogResult.OK Then
-                Me.fctb.OpenBindingFile(Me.ofd.FileName, Encoding.UTF8)
+                Me.fctb.OpenBindingStream(New FileStream(Me.ofd.FileName, FileMode.Open), Encoding.UTF8)
                 Me.fctb.IsChanged = False
                 Me.fctb.ClearUndo()
                 GC.Collect()
@@ -189,11 +189,11 @@ Namespace TesterVB
         End Sub
 
         Private Sub closeFileToolStripMenuItem_Click(sender As Object, e As EventArgs)
-            Me.fctb.CloseBindingFile()
+            Me.fctb.CloseBindingStream()
         End Sub
 
         Private Sub LazyLoadingSample_FormClosing(sender As Object, e As FormClosingEventArgs)
-            Me.fctb.CloseBindingFile()
+            Me.fctb.CloseBindingStream()
         End Sub
 
         Private Sub miSave_Click(sender As Object, e As EventArgs)

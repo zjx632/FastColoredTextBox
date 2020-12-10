@@ -24,7 +24,7 @@ namespace Tester
         {
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                fctb.OpenBindingFile(ofd.FileName, Encoding.UTF8);
+                fctb.OpenBindingStream(new FileStream(ofd.FileName, FileMode.Open), Encoding.UTF8);
                 fctb.IsChanged = false;
                 fctb.ClearUndo();
                 GC.Collect();
@@ -62,12 +62,12 @@ namespace Tester
 
         private void closeFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fctb.CloseBindingFile();
+            fctb.CloseBindingStream();
         }
 
         private void LazyLoadingSample_FormClosing(object sender, FormClosingEventArgs e)
         {
-            fctb.CloseBindingFile();
+            fctb.CloseBindingStream();
         }
 
         private void miSave_Click(object sender, EventArgs e)

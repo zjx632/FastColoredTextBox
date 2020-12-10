@@ -932,7 +932,7 @@ namespace FastColoredTextBoxNS
         {
             Normalize();
 
-            var fts = tb.TextSource as FileTextSource; //<----!!!! ugly
+            var fts = tb.TextSource as StreamTextSource; //<----!!!! ugly
 
             //enumaerate lines
             for (int iLine = Start.iLine; iLine <= End.iLine; iLine++)
@@ -965,7 +965,7 @@ namespace FastColoredTextBoxNS
             //create regex
             Regex regex = new Regex(regexPattern, options);
             //
-            var fts = tb.TextSource as FileTextSource; //<----!!!! ugly
+            var fts = tb.TextSource as StreamTextSource; //<----!!!! ugly
 
             //enumaerate lines
             for (int iLine = End.iLine; iLine >= Start.iLine; iLine--)

@@ -11,10 +11,10 @@ namespace FastColoredTextBoxNS
     /// This class contains the source text (chars and styles).
     /// It stores a text lines, the manager of commands, undo/redo stack, styles.
     /// </summary>
-    public class FileTextSource : TextSource, IDisposable
+    public class StreamTextSource : TextSource, IDisposable
     {
         List<int> sourceFileLinePositions = new List<int>();
-        FileStream fs;
+        Stream stream;
         Encoding fileEncoding;
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
 
@@ -28,7 +28,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public event EventHandler<LinePushedEventArgs> LinePushed;
 
-        public FileTextSource(FastColoredTextBox currentTB)
+        public StreamTextSource(FastColoredTextBox currentTB)
             : base(currentTB)
         {
             timer.Interval = 10000;
@@ -69,26 +69,26 @@ namespace FastColoredTextBoxNS
             #endif
         }
 
-        public void OpenFile(string fileName, Encoding enc)
+        public void OpenStream(Stream stream, Encoding enc)
         {
             Clear();
 
-            if (fs != null)
-                fs.Dispose();
+            if (this.stream != null)
+                this.stream.Dispose();
 
             SaveEOL = Environment.NewLine;
 
             //read lines of file
-            fs = new FileStream(fileName, FileMode.Open);
-            var length = fs.Length;
+            this.stream = stream;
+            var length = this.stream.Length;
             //read signature
-            enc = DefineEncoding(enc, fs);
+            enc = DefineEncoding(enc, this.stream);
             int shift = DefineShift(enc);
             //first line
-            sourceFileLinePositions.Add((int)fs.Position);
+            sourceFileLinePositions.Add((int)this.stream.Position);
             base.lines.Add(null);
             //other lines
-            sourceFileLinePositions.Capacity = (int)(length/7 + 1000);
+            sourceFileLinePositions.Capacity = (int)(length / 7 + 1000);
 
             //int prev = 0;
             //while(fs.Position < length)
@@ -118,15 +118,15 @@ namespace FastColoredTextBoxNS
 
             int prev = 0;
             int prevPos = 0;
-            BinaryReader br = new BinaryReader(fs, enc);
-            while (fs.Position < length)
+            BinaryReader br = new BinaryReader(this.stream, enc);
+            while (this.stream.Position < length)
             {
-                prevPos = (int)fs.Position;
+                prevPos = (int)this.stream.Position;
                 var b = br.ReadChar();
 
                 if (b == 10)// \n
                 {
-                    sourceFileLinePositions.Add((int)fs.Position);
+                    sourceFileLinePositions.Add((int)this.stream.Position);
                     base.lines.Add(null);
                 }
                 else
@@ -146,7 +146,7 @@ namespace FastColoredTextBoxNS
                 base.lines.Add(null);
             }
 
-            if(length > 2000000)
+            if (length > 2000000)
                 GC.Collect();
 
             Line[] temp = new Line[100];
@@ -162,13 +162,13 @@ namespace FastColoredTextBoxNS
             sourceFileLinePositions.AddRange(temp2);
             sourceFileLinePositions.TrimExcess();
             sourceFileLinePositions.RemoveRange(c, temp.Length);
-            
+
 
             fileEncoding = enc;
 
             OnLineInserted(0, Count);
             //load first lines for calc width of the text
-            var linesCount = Math.Min(lines.Count, CurrentTB.ClientRectangle.Height/CurrentTB.CharHeight);
+            var linesCount = Math.Min(lines.Count, CurrentTB.ClientRectangle.Height / CurrentTB.CharHeight);
             for (int i = 0; i < linesCount; i++)
                 LoadLineFromSourceFile(i);
             //
@@ -197,7 +197,7 @@ namespace FastColoredTextBoxNS
             return 0;
         }
 
-        private static Encoding DefineEncoding(Encoding enc, FileStream fs)
+        private static Encoding DefineEncoding(Encoding enc, Stream fs)
         {
             int bytesPerSignature = 0;
             byte[] signature = new byte[4];
@@ -237,18 +237,18 @@ namespace FastColoredTextBoxNS
             return enc;
         }
 
-        public void CloseFile()
+        public void CloseStream()
         {
-            if(fs!=null)
+            if(stream!=null)
                 try
                 {
-                    fs.Dispose();
+                    stream.Dispose();
                 }
                 catch
                 {
                     ;
                 }
-            fs = null;
+            stream = null;
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace FastColoredTextBoxNS
             var dir = Path.GetDirectoryName(fileName);
             var tempFileName = Path.Combine(dir, Path.GetFileNameWithoutExtension(fileName) + ".tmp");
 
-            StreamReader sr = new StreamReader(fs, fileEncoding);
+            StreamReader sr = new StreamReader(stream, fileEncoding);
             using (FileStream tempFs = new FileStream(tempFileName, FileMode.Create))
             using (StreamWriter sw = new StreamWriter(tempFs, enc))
             {
@@ -309,7 +309,7 @@ namespace FastColoredTextBoxNS
                 lines[i] = null;
             //deattach from source file
             sr.Dispose();
-            fs.Dispose();
+            stream.Dispose();
             //delete target file
             if (File.Exists(fileName))
                 File.Delete(fileName);
@@ -318,7 +318,7 @@ namespace FastColoredTextBoxNS
 
             //binding to new file
             sourceFileLinePositions = newLinePos;
-            fs = new FileStream(fileName, FileMode.Open);
+            stream = new FileStream(fileName, FileMode.Open);
             this.fileEncoding = enc;
         }
 
@@ -328,7 +328,7 @@ namespace FastColoredTextBoxNS
             var filePos = sourceFileLinePositions[i];
             if (filePos < 0)
                 return "";
-            fs.Seek(filePos, SeekOrigin.Begin);
+            stream.Seek(filePos, SeekOrigin.Begin);
             sr.DiscardBufferedData();
             line = sr.ReadLine();
             return line;
@@ -361,8 +361,8 @@ namespace FastColoredTextBoxNS
         private void LoadLineFromSourceFile(int i)
         {
             var line = CreateLine();
-            fs.Seek(sourceFileLinePositions[i], SeekOrigin.Begin);
-            StreamReader sr = new StreamReader(fs, fileEncoding);
+            stream.Seek(sourceFileLinePositions[i], SeekOrigin.Begin);
+            StreamReader sr = new StreamReader(stream, fileEncoding);
 
             var s = sr.ReadLine();
             if (s == null)
@@ -429,8 +429,8 @@ namespace FastColoredTextBoxNS
 
         public override void Dispose()
         {
-            if (fs != null)
-                fs.Dispose();
+            if (stream != null)
+                stream.Dispose();
 
             timer.Dispose();
         }

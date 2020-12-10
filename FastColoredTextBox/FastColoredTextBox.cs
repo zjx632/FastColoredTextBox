@@ -7528,23 +7528,23 @@ window.status = ""#print"";
         }
 
         /// <summary>
-        /// Open file binding mode
+        /// Open stream binding mode
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="stream"></param>
         /// <param name="enc"></param>
-        public void OpenBindingFile(string fileName, Encoding enc)
+        public void OpenBindingStream(Stream stream, Encoding enc)
         {
-            var fts = new FileTextSource(this);
+            var fts = new StreamTextSource(this);
             try
             {
                 InitTextSource(fts);
-                fts.OpenFile(fileName, enc);
+                fts.OpenStream(stream, enc);
                 IsChanged = false;
                 OnVisibleRangeChanged();
             }
             catch
             {
-                fts.CloseFile();
+                fts.CloseStream();
                 InitTextSource(CreateTextSource());
                 lines.InsertLine(0, TextSource.CreateLine());
                 IsChanged = false;
@@ -7556,12 +7556,12 @@ window.status = ""#print"";
         /// <summary>
         /// Close file binding mode
         /// </summary>
-        public void CloseBindingFile()
+        public void CloseBindingStream()
         {
-            if (lines is FileTextSource)
+            if (lines is StreamTextSource)
             {
-                var fts = lines as FileTextSource;
-                fts.CloseFile();
+                var fts = lines as StreamTextSource;
+                fts.CloseStream();
 
                 InitTextSource(CreateTextSource());
                 lines.InsertLine(0, TextSource.CreateLine());

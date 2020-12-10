@@ -2237,14 +2237,14 @@
             Open text file (with automatic encoding detector)
             </summary>
         </member>
-        <member name="M:FastColoredTextBoxNS.FastColoredTextBox.OpenBindingFile(System.String,System.Text.Encoding)">
+        <member name="M:FastColoredTextBoxNS.FastColoredTextBox.OpenBindingStream(System.IO.Stream,System.Text.Encoding)">
             <summary>
-            Open file binding mode
+            Open stream binding mode
             </summary>
-            <param name="fileName"></param>
+            <param name="stream"></param>
             <param name="enc"></param>
         </member>
-        <member name="M:FastColoredTextBoxNS.FastColoredTextBox.CloseBindingFile">
+        <member name="M:FastColoredTextBoxNS.FastColoredTextBox.CloseBindingStream">
             <summary>
             Close file binding mode
             </summary>
@@ -3239,23 +3239,23 @@
              These classes are required for correct data binding to Text property of FastColoredTextbox
              
         </member>
-        <member name="T:FastColoredTextBoxNS.FileTextSource">
+        <member name="T:FastColoredTextBoxNS.StreamTextSource">
             <summary>
             This class contains the source text (chars and styles).
             It stores a text lines, the manager of commands, undo/redo stack, styles.
             </summary>
         </member>
-        <member name="E:FastColoredTextBoxNS.FileTextSource.LineNeeded">
+        <member name="E:FastColoredTextBoxNS.StreamTextSource.LineNeeded">
             <summary>
             Occurs when need to display line in the textbox
             </summary>
         </member>
-        <member name="E:FastColoredTextBoxNS.FileTextSource.LinePushed">
+        <member name="E:FastColoredTextBoxNS.StreamTextSource.LinePushed">
             <summary>
             Occurs when need to save line in the file
             </summary>
         </member>
-        <member name="P:FastColoredTextBoxNS.FileTextSource.SaveEOL">
+        <member name="P:FastColoredTextBoxNS.StreamTextSource.SaveEOL">
             <summary>
             End Of Line characters used for saving
             </summary>

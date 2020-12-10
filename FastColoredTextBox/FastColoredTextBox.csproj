@@ -10,9 +10,18 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FastColoredTextBoxNS</RootNamespace>
     <AssemblyName>FastColoredTextBox</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>FCTB</PackageId>
+    <PackageOutputPath>bin\Package</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Authors>Fk</Authors>
+	<PackageVersion>2.16.24.2020</PackageVersion>
+	<Description>Fork of FastColoredTextBox by Pavel Torgashov with small modifications.</Description>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -110,7 +119,7 @@
     <Compile Include="Style.cs" />
     <Compile Include="TextSource.cs" />
     <Compile Include="TypeDescriptor.cs" />
-    <Compile Include="FileTextSource.cs" />
+    <Compile Include="StreamTextSource.cs" />
     <Compile Include="UnfocusablePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -136,6 +145,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FCTB_key.snk" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.8.0"/>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
