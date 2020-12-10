@@ -19,7 +19,7 @@
     <PackageOutputPath>bin\Package</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<Authors>Fk</Authors>
-	<PackageVersion>2.16.24.2020</PackageVersion>
+	<PackageVersion>2.16.25.1</PackageVersion>
 	<Description>Fork of FastColoredTextBox by Pavel Torgashov with small modifications.</Description>
     <NuGetPackageImportStamp></NuGetPackageImportStamp>
   </PropertyGroup>
@@ -148,7 +148,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.8.0"/>
+    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.8.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
