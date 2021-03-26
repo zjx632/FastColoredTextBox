@@ -240,6 +240,7 @@ namespace FastColoredTextBoxNS
         [Browsable(true)] 
         [Description("Colors of some service visual markers.")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ServiceColors ServiceColors { get; set; }
 
         /// <summary>

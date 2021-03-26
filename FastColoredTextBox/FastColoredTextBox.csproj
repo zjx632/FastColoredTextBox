@@ -18,10 +18,11 @@
     <PackageId>Fk.FCTB</PackageId>
     <PackageOutputPath>bin\Package</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<Authors>Fk</Authors>
-	<PackageVersion>2.16.25.1</PackageVersion>
-	<Description>Fork of FastColoredTextBox by Pavel Torgashov with small modifications.</Description>
-    <NuGetPackageImportStamp></NuGetPackageImportStamp>
+    <Authors>Fk</Authors>
+    <PackageVersion>2.16.25.1</PackageVersion>
+    <Description>Fork of FastColoredTextBox by Pavel Torgashov with small modifications.</Description>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,7 +43,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>FCTB_key.snk</AssemblyOriginatorKeyFile>
